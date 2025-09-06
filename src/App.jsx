@@ -1,49 +1,67 @@
-import TodoItem from "./TodoItem"
-import { useState } from "react"
+import TodoItem from "./TodoItem";
+import { useState } from "react";
 
 export default function App() {
-
   const [tareas, setTareas] = useState([]);
-
   const [input, setInput] = useState("");
 
-
   const agregarTarea = () => {
-
     if (input.trim()) {
       setTareas([...tareas, { id: Date.now(), text: input.trim(), completed: false }]);
       setInput("");
-    };
+    }
+  };
 
-  }
-
+  const eliminarTarea = (id) => {
+    setTareas(tareas.filter((tarea) => tarea.id !== id));
+  };
 
   const toggleCompleted = (id) => {
     setTareas(
-      tareas.map((tarea) =>
-        tarea.id === id ? { ...tarea, completed: !tarea.completed } : tarea
+      tareas.map((t) =>
+        t.id === id ? { ...t, completed: !t.completed } : tarea
       )
     );
   };
 
-
-  const eliminarTarea = (id) => {
-    setTareas(tareas.filter((tarea) => tarea.id !== id));
-
-  }
+  const editarTarea = (id, nuevoTexto) => {
+    setTareas(
+      tareas.map((t) =>
+        t.id === id ? { ...t, text: nuevoTexto } : t
+      )
+    );
+  };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-2  rounded shadow">
+    <div className="max-w-md mx-auto mt-10 p-2 rounded shadow">
       <h1 className="text-3xl font-bold mb-5 text-center">LISTA DE TAREAS</h1>
       <div className="flex gap-3 mb-5">
-        <input className="flex-1 p-2 border rounded" type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Añadir Tarea" />
-        <button className="bg-blue-500 text-white px-4 p-y-2 rounded" onClick={agregarTarea} >Añadir Tareas</button>
+        <input
+          className="flex-1 p-2 border rounded"
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Añadir Tarea"
+        />
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={agregarTarea}
+        >
+          Añadir Tarea
+        </button>
       </div>
 
       <div className="space-y-2">
-        {tareas.map((tarea) => (<TodoItem key={tarea.id} tarea={tarea} toggleCompleted={toggleCompleted} eliminarTarea={eliminarTarea} />))}
+        {tareas.map((tarea) => (
+          <TodoItem
+            key={tarea.id}
+            tarea={tarea}
+            toggleCompleted={toggleCompleted}
+            eliminarTarea={eliminarTarea}
+            editarTarea={editarTarea}
+          />
+        ))}
       </div>
-
     </div>
-  )
+  );
 }
