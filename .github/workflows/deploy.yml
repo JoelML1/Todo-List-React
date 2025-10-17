@@ -3,7 +3,7 @@ name: Deploy React app to GitHub Pages
 on:
   push:
     branches:
-      - develop  # o 'master' si esa es tu rama principal
+      - default  # rama principal del proyecto
 
 permissions:
   contents: write
