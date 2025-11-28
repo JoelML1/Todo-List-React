@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - default  # rama principal del proyecto
+  workflow_dispatch:  # Permite ejecutar manualmente el workflow
 
 permissions:
   contents: read
