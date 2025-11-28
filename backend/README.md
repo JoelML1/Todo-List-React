@@ -1,6 +1,6 @@
-# Backend Todo List API - Python/FastAPI
+# Backend Todo List API - Python/FastAPI + MySQL
 
-API REST moderna para la gestión de tareas usando Python y FastAPI.
+API REST moderna para la gestión de tareas usando Python, FastAPI y MySQL en Railway.
 
 ## 🚀 Características
 
@@ -8,7 +8,9 @@ API REST moderna para la gestión de tareas usando Python y FastAPI.
 - 📝 Documentación automática (Swagger UI)
 - ✅ Validación de datos con Pydantic
 - 🔄 CORS configurado
-- 💾 Persistencia en JSON
+- 🗄️ MySQL en Railway (Cloud)
+- 📊 SQLAlchemy ORM
+- ✅ **CONECTADO Y FUNCIONANDO**
 
 ## 📦 Instalación
 
