@@ -47,7 +47,7 @@ export default function App() {
     if (!input.trim()) return;
     
     try {
-      const response = await fetch(`${API_URL}/tareas`, {
+      const response = await fetch(`${API_URL}/api/tareas`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,7 +67,7 @@ export default function App() {
 
   const eliminarTarea = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/tareas/${id}`, {
+      const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: "DELETE"
       });
       
@@ -83,7 +83,7 @@ export default function App() {
     if (!tarea) return;
 
     try {
-      const response = await fetch(`${API_URL}/tareas/${id}`, {
+      const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -105,7 +105,7 @@ export default function App() {
     if (!tarea) return;
 
     try {
-      const response = await fetch(`${API_URL}/tareas/${id}`, {
+      const response = await fetch(`${API_URL}/api/tareas/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
