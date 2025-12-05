@@ -45,6 +45,31 @@
 
 Esta es una aplicación full stack de gestión de tareas (TODO List) diseñada con las mejores prácticas de desarrollo moderno. Combina un frontend elegante con animaciones 3D y un backend robusto con FastAPI, todo conectado a una base de datos MySQL en la nube.
 
+### 🎬 Quick Start
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/JoelML1/Todo-List-React.git
+cd Todo-List-React
+
+# Backend
+cd backend
+python -m venv entornoV
+entornoV\Scripts\activate  # Windows
+source entornoV/bin/activate  # macOS/Linux
+pip install -r requirements.txt
+echo "DATABASE_URL=mysql+pymysql://root:password@localhost:3306/todo_list_db" > .env
+uvicorn main:app --reload
+
+# Frontend (nueva terminal)
+cd frontend
+npm install
+echo "VITE_API_URL=http://localhost:8000" > .env
+npm run dev
+```
+
+¡Listo! Abre `http://localhost:5173` en tu navegador.
+
 ### ✨ Características Destacadas
 
 - 🎨 **Diseño Moderno 3D**: Interfaz con gradientes negro/rojo y efectos visuales impactantes
@@ -355,6 +380,56 @@ md:grid-cols-2 lg:grid-cols-3
 p-4 md:p-6 lg:p-8
 ```
 
+### 🎨 Personalización
+
+Los estilos se pueden personalizar fácilmente:
+
+**Tailwind Config** (`frontend/tailwind.config.js`):
+```javascript
+export default {
+  content: ['./index.html', './src/**/*.{js,jsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#dc2626',     // Rojo personalizado
+        secondary: '#18181b',   // Zinc oscuro
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      }
+    },
+  },
+}
+```
+
+**Estilos Globales** (`frontend/src/index.css`):
+```css
+@import "tailwindcss";
+
+/* Estilos personalizados adicionales */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #18181b;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #dc2626;
+  border-radius: 4px;
+}
+```
+
+**Variables de Entorno** (`.env`):
+```bash
+# Frontend
+VITE_API_URL=http://localhost:8000
+
+# Backend
+DATABASE_URL=mysql+pymysql://user:password@host:port/database
+```
+
 ### Tipografía
 
 | Elemento | Clases | Tamaño |
@@ -582,16 +657,18 @@ except Exception as e:
 
 ## 🔧 Instalación Local
 
-### Prerrequisitos
+### 📋 Prerrequisitos
 
-Antes de comenzar, asegúrate de tener instalado:
+Asegúrate de tener instalado:
 
-- **Node.js** (v18 o superior) - [Descargar](https://nodejs.org/)
-- **npm** (v9 o superior) - Incluido con Node.js
-- **Python** (v3.11 o superior) - [Descargar](https://www.python.org/)
-- **pip** (Incluido con Python)
-- **MySQL** (v8.0 o superior) - [Descargar](https://www.mysql.com/downloads/)
-- **Git** - [Descargar](https://git-scm.com/)
+| Software | Versión | Link de Descarga |
+|----------|---------|------------------|
+| **Node.js** | v18+ | [nodejs.org](https://nodejs.org/) |
+| **npm** | v9+ | Incluido con Node.js |
+| **Python** | v3.11+ | [python.org](https://www.python.org/) |
+| **pip** | Latest | Incluido con Python |
+| **MySQL** | v8.0+ | [mysql.com](https://www.mysql.com/downloads/) |
+| **Git** | Latest | [git-scm.com](https://git-scm.com/) |
 
 ### 1️⃣ Clonar el Repositorio
 
@@ -689,18 +766,69 @@ El frontend estará disponible en: **http://localhost:5173**
 
 ---
 
+## 🏃‍♂️ Ejecución
+
+### Modo Desarrollo
+
+**Backend** (Terminal 1):
+```bash
+cd backend
+uvicorn main:app --reload
+# API disponible en: http://localhost:8000
+# Documentación: http://localhost:8000/docs
+```
+
+**Frontend** (Terminal 2):
+```bash
+cd frontend
+npm run dev
+# App disponible en: http://localhost:5173
+```
+
+### Modo Producción
+
+**Backend**:
+```bash
+cd backend
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**Frontend**:
+```bash
+cd frontend
+npm run build      # Construir para producción
+npm run preview    # Previsualizar el build
+```
+
+---
+
 ## 📡 Documentación de API
 
-### Base URL
+### 📍 Base URL
 
-- **Desarrollo**: `http://localhost:8000`
-- **Producción**: `https://todo-list-react-production.up.railway.app`
+| Entorno | URL |
+|---------|-----|
+| **Desarrollo** | `http://localhost:8000` |
+| **Producción** | `https://todo-list-react-production.up.railway.app` |
 
-### Autenticación
+### 🔐 Autenticación
 
 Actualmente la API no requiere autenticación. Todas las tareas están asociadas al `usuario_id=1` por defecto.
 
-### Endpoints
+### 🎯 Endpoints Disponibles
+
+La aplicación consume los siguientes endpoints:
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/` | Health check y estado de DB |
+| `GET` | `/api/tareas` | Lista todas las tareas |
+| `GET` | `/api/tareas/{id}` | Obtiene una tarea específica |
+| `POST` | `/api/tareas` | Crea una nueva tarea |
+| `PUT` | `/api/tareas/{id}` | Actualiza una tarea |
+| `DELETE` | `/api/tareas/{id}` | Elimina una tarea |
+
+### 📝 Detalle de Endpoints
 
 #### 1. Health Check
 
@@ -1172,53 +1300,61 @@ DATABASE_URL=mysql+pymysql://root:PASSWORD@mainline.proxy.rlwy.net:PORT/railway
 
 ### Frontend en Vercel
 
-#### 1. Importar Proyecto
+#### Opción 1: Desde la Interfaz Web
 
-1. Ve a [vercel.com](https://vercel.com)
-2. Click en **"Add New..."** → **"Project"**
-3. Importa desde GitHub: `JoelML1/Todo-List-React`
+1. **Importar Repositorio**:
+   - Ve a [vercel.com](https://vercel.com)
+   - Click **"Add New..."** → **"Project"**
+   - Importa desde GitHub: `JoelML1/Todo-List-React`
 
-#### 2. Configurar el Proyecto
+2. **Configurar Build**:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+   - **Install Command**: `npm install`
 
-**Framework Preset**: Vite
+3. **Variables de Entorno**:
+   ```bash
+   VITE_API_URL=https://todo-list-react-production.up.railway.app
+   ```
+   ✅ Aplicar a: Production, Preview, Development
 
-**Build Settings**:
-```bash
-# Root Directory
-frontend
+4. **Deploy**:
+   - Click **"Deploy"**
+   - Espera 2-3 minutos ⏱️
+   - Tu app estará en: `https://todo-list-react.vercel.app`
 
-# Build Command
-npm run build
-
-# Output Directory
-dist
-
-# Install Command
-npm install
-```
-
-#### 3. Variables de Entorno
-
-En **Environment Variables**, agrega:
+#### Opción 2: Desde la CLI
 
 ```bash
-# Variable de entorno
-VITE_API_URL=https://todo-list-react-production.up.railway.app
+# Instalar Vercel CLI
+npm i -g vercel
+
+# Navegar al frontend
+cd frontend
+
+# Configurar variables de entorno
+echo "VITE_API_URL=https://todo-list-react-production.up.railway.app" > .env.production
+
+# Desplegar
+vercel
+# Sigue las instrucciones en pantalla
+
+# Para producción
+vercel --prod
 ```
-
-**Para todos los entornos**: Production, Preview, Development
-
-#### 4. Deploy
-
-1. Click en **"Deploy"**
-2. Espera 2-3 minutos
-3. Vercel te dará una URL (ej: `https://todo-list-react.vercel.app`)
 
 #### 5. Configurar Dominio Personalizado (Opcional)
 
 1. Ve a **Settings** → **Domains**
-2. Agrega tu dominio personalizado
-3. Configura DNS según las instrucciones
+2. Agrega tu dominio: `miapp.com`
+3. Configura DNS:
+   ```
+   Tipo: CNAME
+   Nombre: @
+   Valor: cname.vercel-dns.com
+   ```
 
 ---
 
