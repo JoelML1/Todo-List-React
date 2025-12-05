@@ -1775,17 +1775,17 @@ in the Software without restriction...
 
 **Joel Medina**
 - GitHub: [@JoelML1](https://github.com/JoelML1)
-- Email: joel.medina@ejemplo.com
+- Email: joesmele3@gmail.com
 
 **Juan Salinas**
 - GitHub: [@JuanSalinas](https://github.com/JuanSalinas)
-- Email: juan.salinas@ejemplo.com
+- Email: juandiegosalinascontreras.17@gmail.com
 
 **David Torres**
 - GitHub: [@DavidTorres](https://github.com/DavidTorres)
-- Email: david.torres@ejemplo.com
+- Email: davidsantiagotorresrestrepo@gmail.com
 
----
+---## 📂 Repositorio
 
 **Link del Proyecto**: [https://github.com/JoelML1/Todo-List-React](https://github.com/JoelML1/Todo-List-React)
 

@@ -1,5 +1,6 @@
 #!/bin/bash
-
+#binenaspmdklda
+#!/bin/bash
 # Script para configurar la base de datos MySQL localmente
 
 echo "🚀 Configurando Base de Datos MySQL para Todo List"
