@@ -47,7 +47,7 @@ class TareaResponse(TareaBase):
     posicion: int
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 # Schemas para Subtarea
 class SubtareaBase(BaseModel):
@@ -70,7 +70,7 @@ class SubtareaResponse(SubtareaBase):
     fecha_completada: Optional[datetime] = None
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 # Schemas para Categoría
 class CategoriaBase(BaseModel):
@@ -94,7 +94,7 @@ class CategoriaResponse(CategoriaBase):
     fecha_creacion: datetime
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 # Schemas para Usuario
 class UsuarioBase(BaseModel):
@@ -110,7 +110,7 @@ class UsuarioResponse(UsuarioBase):
     estado: str
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 # Schema de respuesta genérica
 class MessageResponse(BaseModel):
