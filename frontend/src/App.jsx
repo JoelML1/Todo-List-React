@@ -2,7 +2,7 @@ import TodoItem from "./TodoItem";
 import { useState, useEffect } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
-const API_URL = "http://localhost:8000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export default function App() {
   const [tareas, setTareas] = useState([]);
@@ -19,7 +19,7 @@ export default function App() {
 
   const verificarConexion = async () => {
     try {
-      const response = await fetch("http://localhost:8000/");
+      const response = await fetch(`${API_URL}/`);
       const data = await response.json();
       setDbStatus(data.database);
     } catch (err) {
@@ -31,7 +31,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_URL}/tareas?usuario_id=1`);
+      const response = await fetch(`${API_URL}/api/tareas?usuario_id=1`);
       if (!response.ok) throw new Error("Error al cargar tareas");
       const data = await response.json();
       setTareas(data);
