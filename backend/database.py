@@ -10,6 +10,9 @@ load_dotenv()
 # URL de la base de datos
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL no está configurada. Por favor agrega la variable de entorno DATABASE_URL en Railway.")
+
 # Crear el engine de SQLAlchemy
 engine = create_engine(
     DATABASE_URL,
