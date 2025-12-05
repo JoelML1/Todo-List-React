@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from typing import List
 from datetime import datetime, date
 import models, schemas
@@ -12,7 +13,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Crear las tablas (si no existen)
-models.Base.metadata.create_all(bind=engine)
+try:
+    models.Base.metadata.create_all(bind=engine)
+    print("✅ Conexión exitosa a la base de datos MySQL en Railway")
+    print(f"📊 Base de datos: {os.getenv('DATABASE_URL', '').split('@')[1].split('/')[0] if '@' in os.getenv('DATABASE_URL', '') else 'No configurada'}")
+except Exception as e:
+    print(f"❌ Error al conectar con la base de datos: {e}")
 
 # Crear la aplicación FastAPI
 app = FastAPI(
@@ -35,12 +41,25 @@ app.add_middleware(
 # ============================================
 
 @app.get("/", tags=["Health"])
-def read_root():
+def read_root(db: Session = Depends(get_db)):
     """Health check endpoint"""
+    try:
+        # Verificar conexión a la base de datos
+        db.execute(text("SELECT 1"))
+        db_status = "connected"
+        db_message = "Base de datos MySQL conectada correctamente"
+    except Exception as e:
+        db_status = "disconnected"
+        db_message = f"Error de conexión: {str(e)}"
+    
     return {
         "status": "ok",
         "message": "Todo List API está funcionando correctamente",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "database": {
+            "status": db_status,
+            "message": db_message
+        }
     }
 
 @app.get("/api/tareas", response_model=List[schemas.TareaResponse], tags=["Tareas"])
