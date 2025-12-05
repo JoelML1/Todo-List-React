@@ -25,9 +25,13 @@
 - [Arquitectura](#️-arquitectura)
 - [Tecnologías](#-tecnologías)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Diseño y Estilos del Frontend](#-diseño-y-estilos-del-frontend)
+- [Configuración del Backend](#-configuración-del-backend)
 - [Instalación Local](#-instalación-local)
 - [Documentación de API](#-documentación-de-api)
+- [Swagger UI y FastAPI Docs](#-swagger-ui-y-fastapi-docs)
 - [Despliegue en Producción](#-despliegue-en-producción)
+- [Gestión de Railway](#-gestión-de-railway)
 - [Variables de Entorno](#-variables-de-entorno)
 - [Scripts Disponibles](#-scripts-disponibles)
 - [Solución de Problemas](#-solución-de-problemas)
@@ -233,6 +237,345 @@ Todo-List-React/
 ├── package.json                        # Dependencias raíz
 ├── postcss.config.js                   # PostCSS global
 └── vite.config.js                      # Vite global
+```
+
+---
+
+## 🎨 Diseño y Estilos del Frontend
+
+### Paleta de Colores
+
+El frontend utiliza un esquema de colores moderno y elegante basado en **negro, rojo y zinc** con efectos 3D:
+
+#### Colores Principales
+
+| Uso | Color | Código Tailwind | Hex/RGB |
+|-----|-------|-----------------|----------|
+| **Fondo Principal** | Negro degradado | `bg-gradient-to-br from-black via-zinc-900 to-black` | #000000 → #18181b → #000000 |
+| **Tarjetas** | Zinc oscuro | `bg-zinc-900` | #18181b |
+| **Bordes** | Rojo oscuro | `border-red-900/30` | rgba(127, 29, 29, 0.3) |
+| **Botón Primario** | Rojo degradado | `from-red-600 to-red-700` | #dc2626 → #b91c1c |
+| **Hover Botón** | Rojo intenso | `from-red-700 to-red-800` | #b91c1c → #991b1b |
+| **Texto Principal** | Blanco | `text-white` | #ffffff |
+| **Texto Secundario** | Zinc claro | `text-zinc-400` | #a1a1aa |
+| **Texto Placeholder** | Zinc medio | `text-zinc-500` | #71717a |
+| **Acento Éxito** | Verde | `text-green-400` | #4ade80 |
+| **Acento Error** | Rojo claro | `text-red-400` | #f87171 |
+
+#### Efectos Visuales 3D
+
+```jsx
+// Efectos de fondo animados
+<div className="absolute top-20 left-20 w-96 h-96 bg-red-600/10 rounded-full blur-3xl animate-pulse"></div>
+<div className="absolute bottom-20 right-20 w-96 h-96 bg-red-700/10 rounded-full blur-3xl animate-pulse"></div>
+
+// Sombras 3D
+shadow-2xl shadow-red-900/20
+hover:shadow-red-600/50
+
+// Transformaciones
+transform hover:scale-105 active:scale-95
+```
+
+### Componentes Estilizados
+
+#### 1. Header Principal
+```jsx
+<div className="bg-gradient-to-r from-red-600 via-red-700 to-black p-8">
+  <h1 className="text-5xl font-black text-white tracking-tight drop-shadow-2xl">
+    LISTA DE TAREAS
+  </h1>
+</div>
+```
+
+#### 2. Input de Nueva Tarea
+```jsx
+<input className="
+  w-full px-6 py-4 
+  bg-black/50 
+  border-2 border-zinc-700 
+  rounded-2xl 
+  text-white 
+  focus:border-red-600 
+  focus:ring-4 focus:ring-red-600/20
+" />
+```
+
+#### 3. Botón Agregar
+```jsx
+<button className="
+  bg-gradient-to-r from-red-600 to-red-700 
+  hover:from-red-700 hover:to-red-800 
+  shadow-lg shadow-red-600/30 
+  hover:shadow-red-600/50 
+  transform hover:scale-105 active:scale-95
+">
+  Agregar
+</button>
+```
+
+#### 4. Item de Tarea
+```jsx
+<div className="
+  bg-gradient-to-r from-zinc-800 to-zinc-900 
+  border border-zinc-700 
+  rounded-2xl 
+  p-4 
+  hover:border-red-600/50 
+  transform hover:scale-[1.02]
+">
+  {/* Contenido de la tarea */}
+</div>
+```
+
+### Animaciones CSS
+
+| Animación | Clase Tailwind | Efecto |
+|-----------|----------------|--------|
+| **Pulso** | `animate-pulse` | Parpadeo suave para indicadores |
+| **Spin** | `animate-spin` | Rotación para loading |
+| **Scale hover** | `hover:scale-105` | Agrandamiento al pasar el mouse |
+| **Scale active** | `active:scale-95` | Reducción al hacer click |
+| **Rotate** | `group-hover:rotate-90` | Rotación de íconos |
+
+### Responsive Design
+
+```jsx
+// Contenedor adaptable
+<div className="min-h-screen p-4">
+  <div className="w-full max-w-2xl"> {/* Max width en desktop */}
+    {/* Contenido */}
+  </div>
+</div>
+
+// Grid responsivo (si aplica)
+md:grid-cols-2 lg:grid-cols-3
+
+// Padding adaptable
+p-4 md:p-6 lg:p-8
+```
+
+### Tipografía
+
+| Elemento | Clases | Tamaño |
+|----------|--------|--------|
+| **Título principal** | `text-5xl font-black` | 3rem (48px) |
+| **Subtítulo** | `text-lg font-medium` | 1.125rem (18px) |
+| **Texto normal** | `text-sm font-semibold` | 0.875rem (14px) |
+| **Placeholder** | `text-sm` | 0.875rem (14px) |
+
+### Iconos Heroicons
+
+Los íconos se importan desde `@heroicons/react/24/solid`:
+
+```jsx
+import { 
+  PlusIcon,        // Agregar tarea
+  TrashIcon,       // Eliminar
+  PencilIcon,      // Editar
+  CheckIcon,       // Guardar
+  XMarkIcon        // Cancelar
+} from "@heroicons/react/24/solid";
+```
+
+---
+
+## ⚙️ Configuración del Backend
+
+### Conexión a Base de Datos
+
+#### database.py - Configuración de SQLAlchemy
+
+```python
+import os
+from sqlalchemy import create_engine, text
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Validación de DATABASE_URL
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError(
+        "❌ ERROR: DATABASE_URL no está configurada.\n"
+        "Por favor, crea un archivo .env con:\n"
+        "DATABASE_URL=mysql+pymysql://user:password@host:port/database"
+    )
+
+print(f"✅ Conectando a base de datos: {DATABASE_URL.split('@')[1] if '@' in DATABASE_URL else 'localhost'}")
+
+# Crear engine con configuración de pool
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,        # Verificar conexión antes de usar
+    pool_recycle=3600,         # Reciclar conexiones cada hora
+    pool_size=5,               # Pool de 5 conexiones
+    max_overflow=10,           # Máximo 10 conexiones adicionales
+    echo=False                 # True para debug SQL
+)
+
+# SessionLocal para crear sesiones
+SessionLocal = sessionmaker(
+    autocommit=False, 
+    autoflush=False, 
+    bind=engine
+)
+
+# Base para modelos
+Base = declarative_base()
+
+# Dependency para FastAPI
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
+
+### Modelos SQLAlchemy
+
+#### models.py - Definición de Tablas
+
+```python
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, ForeignKey, Enum
+from sqlalchemy.orm import relationship
+from datetime import datetime
+from database import Base
+import enum
+
+class PrioridadEnum(enum.Enum):
+    baja = "baja"
+    media = "media"
+    alta = "alta"
+    urgente = "urgente"
+
+class EstadoEnum(enum.Enum):
+    pendiente = "pendiente"
+    en_progreso = "en_progreso"
+    completada = "completada"
+    cancelada = "cancelada"
+
+class Usuario(Base):
+    __tablename__ = "usuarios"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True, nullable=False, index=True)
+    fecha_creacion = Column(DateTime, default=datetime.utcnow)
+    
+    # Relación con tareas
+    tareas = relationship("Tarea", back_populates="usuario", cascade="all, delete-orphan")
+
+class Tarea(Base):
+    __tablename__ = "tareas"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    titulo = Column(String(200), nullable=False)
+    descripcion = Column(Text, nullable=True)
+    completada = Column(Boolean, default=False, index=True)
+    prioridad = Column(Enum(PrioridadEnum), default=PrioridadEnum.media)
+    estado = Column(Enum(EstadoEnum), default=EstadoEnum.pendiente, index=True)
+    
+    # Foreign Keys
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False, index=True)
+    categoria_id = Column(Integer, ForeignKey("categorias.id"), nullable=True)
+    
+    # Timestamps
+    fecha_creacion = Column(DateTime, default=datetime.utcnow)
+    fecha_modificacion = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    fecha_completada = Column(DateTime, nullable=True)
+    fecha_vencimiento = Column(DateTime, nullable=True)
+    
+    # Campos adicionales
+    posicion = Column(Integer, default=0)  # Para ordenamiento manual
+    
+    # Relaciones
+    usuario = relationship("Usuario", back_populates="tareas")
+    categoria = relationship("Categoria", back_populates="tareas")
+```
+
+### Middleware y CORS
+
+#### main.py - Configuración de CORS
+
+```python
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI(
+    title="Todo List API",
+    description="API RESTful para gestión de tareas",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
+
+# Configuración de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En producción: ["https://tu-app.vercel.app"]
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],  # Content-Type, Authorization, etc.
+)
+```
+
+### Health Check con Verificación de DB
+
+```python
+from sqlalchemy import text
+from database import engine
+
+@app.get("/")
+async def root():
+    # Verificar conexión a BD
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+        db_status = {
+            "status": "connected",
+            "message": "Base de datos MySQL conectada correctamente"
+        }
+    except Exception as e:
+        db_status = {
+            "status": "disconnected",
+            "message": f"Error de conexión: {str(e)}"
+        }
+    
+    return {
+        "status": "ok",
+        "message": "Todo List API está funcionando correctamente",
+        "version": "1.0.0",
+        "database": db_status
+    }
+```
+
+### Manejo de Errores
+
+```python
+from fastapi import HTTPException, status
+
+# Error 404
+if not tarea:
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Tarea no encontrada"
+    )
+
+# Error de validación
+try:
+    db.add(nueva_tarea)
+    db.commit()
+except Exception as e:
+    db.rollback()
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail=f"Error al guardar tarea: {str(e)}"
+    )
 ```
 
 ---
@@ -1318,7 +1661,7 @@ in the Software without restriction...
 
 **⭐ Si este proyecto te fue útil, considera darle una estrella en GitHub! ⭐**
 
-Hecho con ❤️ y ☕ por [Joel Medina](https://github.com/JoelML1)
+Hecho con ❤️ y ☕ por [Joel Medina, juan salinas, david torres](https://github.com/JoelML1)
 
 </div>
 
