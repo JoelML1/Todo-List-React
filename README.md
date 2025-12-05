@@ -1771,11 +1771,21 @@ in the Software without restriction...
 
 ## 📞 Contacto
 
-**Joel Medina**
+### 👥 Equipo de Desarrollo
 
+**Joel Medina**
 - GitHub: [@JoelML1](https://github.com/JoelML1)
-- Email: tu-email@ejemplo.com
-- LinkedIn: [Tu LinkedIn](https://linkedin.com/in/tu-perfil)
+- Email: joel.medina@ejemplo.com
+
+**Juan Salinas**
+- GitHub: [@JuanSalinas](https://github.com/JuanSalinas)
+- Email: juan.salinas@ejemplo.com
+
+**David Torres**
+- GitHub: [@DavidTorres](https://github.com/DavidTorres)
+- Email: david.torres@ejemplo.com
+
+---
 
 **Link del Proyecto**: [https://github.com/JoelML1/Todo-List-React](https://github.com/JoelML1/Todo-List-React)
 
@@ -1797,7 +1807,7 @@ in the Software without restriction...
 
 **⭐ Si este proyecto te fue útil, considera darle una estrella en GitHub! ⭐**
 
-Hecho con ❤️ y ☕ por [Joel Medina, juan salinas, david torres](https://github.com/JoelML1)
+Hecho con ❤️ y ☕ por [Joel Medina](https://github.com/JoelML1), Juan Salinas y David Torres
 
 </div>
 
